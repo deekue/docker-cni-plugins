@@ -66,7 +66,7 @@ spec:
       labels:
         tier: node
         app: cni-plugins
-        name: cni-plugins-dhcp-daemon
+        name: cni-plugins
     spec:
       hostNetwork: true
       # hostPID required for dhcp to see all netns
@@ -78,8 +78,8 @@ spec:
           effect: NoExecute
       serviceAccountName: cni-plugins
       containers:
-        - name: cni-plugins-dhcp-daemon
-          image: ghcr.io/deekue/cni-plugins:latest
+        - name: dhcp-daemon
+          image: ghcr.io/deekue/docker-cni-plugins:main
           resources:
             requests:
               cpu: "100m"
@@ -98,11 +98,11 @@ spec:
               mountPath: /run
       initContainers:
         - name: install-cni-plugins
-          image: ghcr.io/deekue/cni-plugins:latest
+          image: ghcr.io/deekue/docker-cni-plugins:main
           command:
-            - "cp"
-            - "/plugins/*"
-            - "/host/opt/cni/bin/"
+            - "/bin/sh"
+            - "-c"
+            - "cp -v /plugins/* /host/opt/cni/bin/"
           resources:
             requests:
               cpu: "10m"
