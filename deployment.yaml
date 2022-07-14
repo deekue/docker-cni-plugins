@@ -79,7 +79,7 @@ spec:
       serviceAccountName: cni-plugins
       containers:
         - name: dhcp-daemon
-          image: ghcr.io/deekue/docker-cni-plugins:main
+          image: ghcr.io/deekue/docker-cni-plugins:v1.1.1-0.1
           resources:
             requests:
               cpu: "100m"
@@ -98,7 +98,7 @@ spec:
               mountPath: /run
       initContainers:
         - name: install-cni-plugins
-          image: ghcr.io/deekue/docker-cni-plugins:main
+          image: ghcr.io/deekue/docker-cni-plugins:v1.1.1-0.1
           command:
             - "/bin/sh"
             - "-c"
