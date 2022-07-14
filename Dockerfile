@@ -9,3 +9,5 @@ RUN wget -qO - "https://github.com/containernetworking/plugins/releases/download
 COPY entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+LABEL org.opencontainers.image.version=$CNI_PLUGIN_VER
