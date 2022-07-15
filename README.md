@@ -16,9 +16,9 @@ network interfaces to k8s containers on bare-metal/homelab networks.
 * release version: 1.1.1-0.4
 
 ## TODO
-- [ ] use build image with working TLS ca-certs for validation
+- [x] use build image with working TLS ca-certs for validation
 - [ ] confirm dhcp plugin handles signals
-- [ ] pin base images with sha tags, and still support multi-platform
+- [x] pin base images with sha tags
 - [ ] add arm64 build
 - [ ] reduce privileges for dhcp-daemon container
 - [ ] link to example config/usage
