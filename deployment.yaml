@@ -69,8 +69,6 @@ spec:
         name: cni-plugins
     spec:
       hostNetwork: true
-      # hostPID required for dhcp to see all netns
-      hostPID: true
       tolerations:
         - operator: Exists
           effect: NoSchedule
@@ -80,6 +78,12 @@ spec:
       containers:
         - name: dhcp-daemon
           image: ghcr.io/deekue/docker-cni-plugins:1.1.1-0.3
+          imagePullPolicy: Always
+          command: ["/plugins/dhcp"]
+          args:
+            - "daemon"
+            - "-hostprefix"
+            - "/host"
           resources:
             requests:
               cpu: "100m"
@@ -90,13 +94,25 @@ spec:
           securityContext:
             privileged: true
           volumeMounts:
-            - name: cni
-              mountPath: /host/etc/cni/net.d
+            - name: socketpath
+              mountPath: /host/run/cni
             - name: cnibin
               mountPath: /host/opt/cni/bin
-            - name: run
-              mountPath: /run
+            - name: proc
+              mountPath: /host/proc
+            - name: netns
+              mountPath: /host/var/run/netns
+              mountPropagation: HostToContainer
       initContainers:
+        - name: dhcp-daemon-init
+          image: ghcr.io/deekue/docker-cni-plugins:1.1.1-0.3
+          command: ["/bin/sh"]
+          args:
+            - "-c"
+            - "rm -f /host/run/cni/dhcp.sock"
+          volumeMounts:
+            - name: socketpath
+              mountPath: /host/run/cni
         - name: install-cni-plugins
           image: ghcr.io/deekue/docker-cni-plugins:1.1.1-0.3
           command:
@@ -115,12 +131,15 @@ spec:
               mountPropagation: Bidirectional
       terminationGracePeriodSeconds: 10
       volumes:
-        - name: cni
+        - name: socketpath
           hostPath:
-            path: /etc/cni/net.d
+            path: /run/cni
         - name: cnibin
           hostPath:
             path: /opt/cni/bin
-        - name: run
+        - name: proc
           hostPath:
-            path: /run
+            path: /proc
+        - name: netns
+          hostPath:
+            path: /run/netns

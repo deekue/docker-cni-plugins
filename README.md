@@ -16,11 +16,11 @@ network interfaces to k8s containers on bare-metal/homelab networks.
 * release version: 1.1.1-0.4
 
 ## TODO
-- [ ] use build image with working TLS ca-certs for validation
+- [x] use build image with working TLS ca-certs for validation
 - [ ] confirm dhcp plugin handles signals
-- [ ] pin base images with sha tags, and still support multi-platform
+- [x] pin base images with sha tags
 - [ ] add arm64 build
-- [ ] reduce privileges for dhcp-daemon container
+- [x] reduce privileges for dhcp-daemon container
 - [ ] link to example config/usage
 
 
@@ -28,4 +28,4 @@ Inspired by:
 - https://github.com/OpenSourceLAN/dhcp-cni-plugin
 - https://github.com/containernetworking/plugins
 - https://github.com/k8snetworkplumbingwg/multus-cni
-- 
+- https://github.com/openshift/cluster-network-operator/blob/master/bindata/network/multus/003-dhcp-daemon.yaml 
