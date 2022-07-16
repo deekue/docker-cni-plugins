@@ -105,7 +105,7 @@ spec:
               mountPropagation: HostToContainer
       initContainers:
         - name: dhcp-daemon-init
-          image: ghcr.io/deekue/docker-cni-plugins:1.1.1-0.3
+          image: ghcr.io/deekue/docker-cni-plugins:1.1.1-0.5
           command: ["/bin/sh"]
           args:
             - "-c"
@@ -114,7 +114,7 @@ spec:
             - name: socketpath
               mountPath: /host/run/cni
         - name: install-cni-plugins
-          image: ghcr.io/deekue/docker-cni-plugins:1.1.1-0.3
+          image: ghcr.io/deekue/docker-cni-plugins:1.1.1-0.5
           command:
             - "/bin/sh"
             - "-c"
